@@ -1,0 +1,13 @@
+{
+  "name": "@educosta85/4c-server",
+  "version": "1.0.0",
+  "description": "Bun HTTP/WebSocket server for Claude Code Command Center",
+  "author": "EduCosta85",
+  "license": "MIT",
+  "type": "module",
+  "main": "index.ts",
+  "scripts": {
+    "start": "bun run index.ts",
+    "dev": "bun --watch index.ts"
+  }
+}

@@ -1,23 +1,9 @@
 {
-  "name": "4c",
-  "owner": {
-    "name": "Eduardo Costa"
-  },
-  "metadata": {
-    "description": "4C — Claude Code Command Center",
-    "version": "1.0.0"
-  },
-  "plugins": [
-    {
-      "name": "4c",
-      "source": "./",
-      "description": "4C — Claude Code Command Center. Comprehensive observability dashboard with live events, agent registry, skills, hooks, session history, and connection graph.",
-      "version": "1.0.0",
-      "author": {
-        "name": "Eduardo Costa"
-      },
-      "category": "development",
-      "keywords": ["observability", "dashboard", "hooks", "agents", "sessions", "4c"]
-    }
-  ]
+  "owner": "EduCosta85",
+  "description": "Local command center for Claude Code with event tracking, session viewer, and real-time web dashboard",
+  "version": "1.0.0",
+  "plugin": {
+    "name": "4c",
+    "category": "monitoring"
+  }
 }

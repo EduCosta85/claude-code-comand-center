@@ -1,7 +1,9 @@
 {
-  "name": "dashboard",
-  "private": true,
-  "version": "0.0.0",
+  "name": "@educosta85/4c-dashboard",
+  "version": "1.0.0",
+  "description": "React dashboard for Claude Code Command Center",
+  "author": "EduCosta85",
+  "license": "MIT",
   "type": "module",
   "scripts": {
     "dev": "vite",

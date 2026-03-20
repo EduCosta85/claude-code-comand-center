@@ -5,4 +5,10 @@ dist/
 *.db-shm
 logs/
 .env
+.env.*
 .DS_Store
+.claude/
+.opencode/
+.vscode/
+.idea/
+*.log
