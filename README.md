@@ -8,29 +8,15 @@ A Claude Code plugin that provides a local control center with event tracking, s
 - **Session viewer** — Browse and filter sessions with full event history
 - **Web dashboard** — Real-time React dashboard with charts, session graph, and registry explorer
 
+## Prerequisites
+
+- [Bun](https://bun.sh) runtime (for the server and hooks)
+
 ## Installation
 
-**1. Clone the repo:**
+**From marketplace:**
 ```bash
-git clone https://github.com/EduCosta85/claude-code-comand-center.git
-cd claude-code-comand-center
-```
-
-**2. Install and build the dashboard:**
-```bash
-cd dashboard && npm install && npm run build && cd ..
-```
-
-**3. Start the server:**
-```bash
-bun run server/index.ts
-```
-
-**4. Register as Claude Code plugin:**
-
-Via CLI:
-```bash
-claude --plugin-dir /path/to/claude-code-comand-center
+/plugin install 4c@claude-code-marketplace
 ```
 
 Or add to `~/.claude/settings.json`:
@@ -40,16 +26,23 @@ Or add to `~/.claude/settings.json`:
     "4c": {
       "source": {
         "source": "directory",
-        "path": "/path/to/claude-code-comand-center"
+        "path": "/path/to/4c"
       }
     }
   }
 }
 ```
 
-**From marketplace:**
+**Post-install setup:**
+
+The plugin hooks auto-configure on install. To build the dashboard:
 ```bash
-/plugin install 4c@claude-code-marketplace
+cd dashboard && npm install && npm run build
+```
+
+Start the server:
+```bash
+bun run server/index.ts
 ```
 
 ## Usage
