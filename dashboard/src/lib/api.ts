@@ -26,5 +26,9 @@ export const api = {
   },
   filterOptions: () => get<FilterOptions>("/events/filter-options"),
   sessions: (limit = 50) => get<SessionSummary[]>(`/events/sessions?limit=${limit}`),
-  registry: () => get<RegistryAll>("/registry/all"),
+  registry: (projectDir?: string) => {
+    const params = projectDir ? `?projectDir=${encodeURIComponent(projectDir)}` : "";
+    return get<RegistryAll>(`/registry/all${params}`);
+  },
+  projectDirs: () => get<string[]>("/registry/projects"),
 };

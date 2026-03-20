@@ -4,6 +4,7 @@ export interface HookEvent {
   source_app: string;
   session_id: string;
   hook_event_type: string;
+  project_dir?: string;
   payload: Record<string, unknown>;
   summary?: string;
   timestamp: number;

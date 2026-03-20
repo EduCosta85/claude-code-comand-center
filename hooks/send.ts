@@ -52,12 +52,12 @@ if (eventType === "SessionStart") {
 }
 
 // Send event to server
+const cwd = payload.cwd ? String(payload.cwd) : process.env.CLAUDE_PROJECT_DIR ?? "";
 const event = {
-  source_app: payload.cwd
-    ? String(payload.cwd).split("/").pop()
-    : process.env.CLAUDE_PROJECT_DIR?.split("/").pop() ?? "unknown",
+  source_app: cwd.split("/").pop() || "unknown",
   session_id: (payload.session_id as string) ?? "unknown",
   hook_event_type: eventType,
+  project_dir: cwd || undefined,
   payload,
   timestamp: Date.now(),
 };

@@ -14,12 +14,20 @@ export function initDatabase(dbPath: string) {
       source_app TEXT NOT NULL,
       session_id TEXT NOT NULL,
       hook_event_type TEXT NOT NULL,
+      project_dir TEXT,
       payload TEXT NOT NULL,
       summary TEXT,
       timestamp INTEGER NOT NULL,
       model_name TEXT
     )
   `);
+
+  // Migration: add project_dir column if missing
+  try {
+    db.exec("ALTER TABLE events ADD COLUMN project_dir TEXT");
+  } catch {
+    // Column already exists
+  }
 
   db.exec("CREATE INDEX IF NOT EXISTS idx_source_app ON events(source_app)");
   db.exec("CREATE INDEX IF NOT EXISTS idx_session_id ON events(session_id)");
@@ -29,14 +37,15 @@ export function initDatabase(dbPath: string) {
 
 export function insertEvent(event: HookEvent): HookEvent {
   const stmt = db.prepare(`
-    INSERT INTO events (source_app, session_id, hook_event_type, payload, summary, timestamp, model_name)
-    VALUES (?, ?, ?, ?, ?, ?, ?)
+    INSERT INTO events (source_app, session_id, hook_event_type, project_dir, payload, summary, timestamp, model_name)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
   `);
 
   const result = stmt.run(
     event.source_app,
     event.session_id,
     event.hook_event_type,
+    event.project_dir ?? null,
     JSON.stringify(event.payload),
     event.summary ?? null,
     event.timestamp ?? Date.now(),
@@ -44,6 +53,13 @@ export function insertEvent(event: HookEvent): HookEvent {
   );
 
   return { ...event, id: Number(result.lastInsertRowid) };
+}
+
+export function getKnownProjectDirs(): string[] {
+  const rows = db.prepare(
+    "SELECT DISTINCT project_dir FROM events WHERE project_dir IS NOT NULL AND project_dir != '' ORDER BY MAX(timestamp) DESC"
+  ).all() as Array<{ project_dir: string }>;
+  return rows.map((r) => r.project_dir);
 }
 
 export function getRecentEvents(limit = 300, offset = 0, filters?: {

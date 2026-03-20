@@ -1,4 +1,4 @@
-import { initDatabase, insertEvent, getRecentEvents, getFilterOptions, getSessions, getStats } from "./db";
+import { initDatabase, insertEvent, getRecentEvents, getFilterOptions, getSessions, getStats, getKnownProjectDirs } from "./db";
 import { getAgents, getSkills, getHooks, getPlugins } from "./registry";
 import type { HookEvent } from "./types";
 import { existsSync } from "fs";
@@ -45,21 +45,24 @@ function getMime(path: string): string {
   return MIME[ext] || "application/octet-stream";
 }
 
-// ── Registry cache (refresh every 60s) ──
-let registryCache: { agents?: unknown; skills?: unknown; hooks?: unknown; plugins?: unknown; ts: number } = { ts: 0 };
+// ── Registry cache (refresh every 60s, keyed by projectDir) ──
+const registryCache = new Map<string, { agents?: unknown; skills?: unknown; hooks?: unknown; plugins?: unknown; ts: number }>();
 const CACHE_TTL = 60_000;
 
 function getCachedRegistry(projectDir?: string) {
-  if (Date.now() - registryCache.ts > CACHE_TTL) {
-    registryCache = {
-      agents: getAgents(projectDir),
-      skills: getSkills(projectDir),
-      hooks: getHooks(projectDir),
-      plugins: getPlugins(),
-      ts: Date.now(),
-    };
-  }
-  return registryCache;
+  const key = projectDir || "__global__";
+  const cached = registryCache.get(key);
+  if (cached && Date.now() - cached.ts < CACHE_TTL) return cached;
+
+  const entry = {
+    agents: getAgents(projectDir),
+    skills: getSkills(projectDir),
+    hooks: getHooks(projectDir),
+    plugins: getPlugins(),
+    ts: Date.now(),
+  };
+  registryCache.set(key, entry);
+  return entry;
 }
 
 // ── Server ──
@@ -125,6 +128,9 @@ const server = Bun.serve({
     // ── API: Registry ──
     const projectDir = url.searchParams.get("projectDir") || undefined;
 
+    if (url.pathname === "/registry/projects") {
+      return Response.json(getKnownProjectDirs(), { headers: corsHeaders });
+    }
     if (url.pathname === "/registry/agents") {
       return Response.json(getCachedRegistry(projectDir).agents, { headers: corsHeaders });
     }

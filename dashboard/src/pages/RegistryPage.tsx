@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Bot, Sparkles, Webhook, Puzzle } from "lucide-react";
-import { useRegistry } from "../hooks/useRegistry";
+import { Bot, Sparkles, Webhook, Puzzle, FolderOpen } from "lucide-react";
+import { useRegistry, useProjectDirs } from "../hooks/useRegistry";
 import { Badge } from "../components/Badge";
 
 type Tab = "agents" | "skills" | "hooks" | "plugins";
@@ -15,7 +15,9 @@ const TABS: { id: Tab; label: string; icon: React.ReactNode }[] = [
 
 export function RegistryPage() {
   const [tab, setTab] = useState<Tab>("agents");
-  const { agents, skills, hooks, plugins, loading } = useRegistry();
+  const [projectDir, setProjectDir] = useState<string | undefined>();
+  const projectDirs = useProjectDirs();
+  const { agents, skills, hooks, plugins, loading } = useRegistry(projectDir);
 
   return (
     <div className="space-y-6">
@@ -26,6 +28,24 @@ export function RegistryPage() {
       >
         Registry
       </motion.h1>
+
+      {projectDirs.length > 0 && (
+        <div className="flex items-center gap-3">
+          <FolderOpen size={16} className="text-slate-400" />
+          <select
+            value={projectDir || ""}
+            onChange={(e) => setProjectDir(e.target.value || undefined)}
+            className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white cursor-pointer focus:outline-none focus:border-indigo-500/50"
+          >
+            <option value="" className="bg-slate-900">Global only</option>
+            {projectDirs.map((dir) => (
+              <option key={dir} value={dir} className="bg-slate-900">
+                {dir.split("/").pop()} — {dir}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
 
       <div className="flex gap-1 p-1 rounded-lg bg-white/5 border border-white/10 w-fit">
         {TABS.map((t) => (
