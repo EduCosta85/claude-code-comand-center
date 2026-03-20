@@ -19,14 +19,16 @@ A Claude Code plugin that provides a local control center with event tracking, s
 /plugin install 4c@claude-code-marketplace
 ```
 
-Or add to `~/.claude/settings.json`:
+**From GitHub:**
+
+Add to `~/.claude/settings.json`:
 ```json
 {
   "plugins": {
     "4c": {
       "source": {
-        "source": "directory",
-        "path": "/path/to/4c"
+        "source": "npm",
+        "url": "https://github.com/EduCosta85/claude-code-comand-center"
       }
     }
   }
