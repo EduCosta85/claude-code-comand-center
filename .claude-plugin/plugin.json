@@ -1,0 +1,11 @@
+{
+  "name": "4c",
+  "version": "1.0.0",
+  "description": "4C — Claude Code Command Center. Comprehensive observability dashboard with live events, agent registry, skills, hooks, session history, and connection graph.",
+  "author": {
+    "name": "Eduardo Costa"
+  },
+  "license": "MIT",
+  "keywords": ["observability", "dashboard", "hooks", "agents", "sessions", "4c"],
+  "skills": "./skills/"
+}
