@@ -2,7 +2,11 @@
   "name": "4c",
   "version": "1.0.0",
   "description": "Claude Code Command Center — local event tracking, session management, and web dashboard",
-  "author": "EduCosta85",
+  "author": {
+    "name": "Eduardo Costa"
+  },
+  "repository": "https://github.com/EduCosta85/claude-code-comand-center",
+  "homepage": "https://github.com/EduCosta85/claude-code-comand-center",
   "license": "MIT",
   "keywords": ["claude-code", "dashboard", "events", "sessions", "monitoring"],
   "skills": "./skills"

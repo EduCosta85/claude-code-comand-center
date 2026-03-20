@@ -10,16 +10,46 @@ A Claude Code plugin that provides a local control center with event tracking, s
 
 ## Installation
 
+**1. Clone the repo:**
 ```bash
-# Clone and install
-git clone https://github.com/EduCosta85/control-center.git
-cd control-center
+git clone https://github.com/EduCosta85/claude-code-comand-center.git
+cd claude-code-comand-center
+```
 
-# Install dashboard dependencies
+**2. Install and build the dashboard:**
+```bash
 cd dashboard && npm install && npm run build && cd ..
+```
 
-# Start the server
+**3. Start the server:**
+```bash
 bun run server/index.ts
+```
+
+**4. Register as Claude Code plugin:**
+
+Via CLI:
+```bash
+claude --plugin-dir /path/to/claude-code-comand-center
+```
+
+Or add to `~/.claude/settings.json`:
+```json
+{
+  "plugins": {
+    "4c": {
+      "source": {
+        "source": "directory",
+        "path": "/path/to/claude-code-comand-center"
+      }
+    }
+  }
+}
+```
+
+**From marketplace:**
+```bash
+/plugin install 4c@claude-code-marketplace
 ```
 
 ## Usage
